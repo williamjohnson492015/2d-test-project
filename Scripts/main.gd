@@ -1,7 +1,11 @@
 extends Node
 
 @export var mob_scene: PackedScene
+@onready var pause_menu = $PauseMenu
 var score
+var paused = false
+var hidden_message = false
+var state = 0 # 0 = not running, 1 = running
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -9,9 +13,28 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
-	pass
+	if Input.is_action_just_pressed("pause") && state == 1: 
+		pause()
+
+func pause():
+	if paused:
+		pause_menu.hide()
+		get_tree().paused = false
+		if $HUD/Message.visible == false && hidden_message == true:
+			hidden_message = false
+			$HUD/Message.visible = true
+	else:
+		if $HUD/Message.visible == true: 
+			hidden_message = true
+			$HUD/Message.visible = false
+		pause_menu.show()
+		get_tree().paused = true
+		
+	paused = !paused
 
 func game_over():
+	# Update state
+	state = 0
 	# Stop timers
 	$ScoreTimer.stop()
 	$MobTimer.stop()
@@ -27,6 +50,7 @@ func game_over():
 
 func new_game():
 	# Set up new game
+	state = 1
 	$MainTheme.play()
 	score = 0
 	$Player.start($StartPosition.position)

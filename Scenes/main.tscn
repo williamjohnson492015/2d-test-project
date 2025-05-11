@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=4 uid="uid://beqpbgqaii1yq"]
+[gd_scene load_steps=10 format=4 uid="uid://beqpbgqaii1yq"]
 
 [ext_resource type="Script" uid="uid://chfmpml87c2df" path="res://Scripts/main.gd" id="1_8gbba"]
 [ext_resource type="PackedScene" uid="uid://csdi0lubj24k2" path="res://Enemies/mob.tscn" id="2_jjvhh"]
 [ext_resource type="PackedScene" uid="uid://cxk0f0omri5wt" path="res://Characters/player.tscn" id="3_kry3j"]
 [ext_resource type="PackedScene" uid="uid://bkvk8gomb0cjk" path="res://Scenes/hud.tscn" id="4_jjvhh"]
+[ext_resource type="PackedScene" uid="uid://br1myoad40i8h" path="res://Scenes/pause_menu.tscn" id="5_21xkr"]
 [ext_resource type="AudioStream" uid="uid://dhhcjihatqb6b" path="res://Assets/Art/gameover.wav" id="5_kry3j"]
 
 [sub_resource type="Curve2D" id="Curve2D_21xkr"]
@@ -22,6 +23,7 @@ packet_sequence = SubResource("OggPacketSequence_iek1x")
 loop = true
 
 [node name="Main" type="Node"]
+process_mode = 3
 script = ExtResource("1_8gbba")
 mob_scene = ExtResource("2_jjvhh")
 
@@ -34,13 +36,17 @@ grow_vertical = 2
 color = Color(0.639216, 0.172549, 0.768627, 1)
 
 [node name="Player" parent="." instance=ExtResource("3_kry3j")]
+process_mode = 1
 
 [node name="MobTimer" type="Timer" parent="."]
+process_mode = 1
 wait_time = 0.5
 
 [node name="ScoreTimer" type="Timer" parent="."]
+process_mode = 1
 
 [node name="StartTimer" type="Timer" parent="."]
+process_mode = 1
 wait_time = 2.0
 one_shot = true
 
@@ -48,16 +54,30 @@ one_shot = true
 position = Vector2(240, 450)
 
 [node name="MobPath" type="Path2D" parent="."]
+process_mode = 1
 curve = SubResource("Curve2D_21xkr")
 
 [node name="MobSpawnLocation" type="PathFollow2D" parent="MobPath"]
+process_mode = 1
 
 [node name="HUD" parent="." instance=ExtResource("4_jjvhh")]
+process_mode = 1
+
+[node name="PauseMenu" parent="." instance=ExtResource("5_21xkr")]
+process_mode = 3
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
 
 [node name="MainTheme" type="AudioStreamPlayer2D" parent="."]
+process_mode = 1
 stream = SubResource("AudioStreamOggVorbis_21xkr")
 
 [node name="GameOverSound" type="AudioStreamPlayer2D" parent="."]
+process_mode = 1
 stream = ExtResource("5_kry3j")
 
 [connection signal="hit" from="Player" to="." method="game_over"]
