@@ -6,6 +6,8 @@ var screen_size
 
 func start(pos):
 	position = pos
+	$AnimatedSprite2D.play("walk")
+	$AnimatedSprite2D.flip_v = false
 	show()
 	$CollisionShape2D.disabled = false
 

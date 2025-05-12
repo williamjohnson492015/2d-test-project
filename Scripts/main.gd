@@ -16,6 +16,31 @@ func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("pause") && state == 1: 
 		pause()
 
+func new_game():
+	# Set up new game
+	state = 1
+	$MainTheme.play()
+	score = 0
+	$Player.start($StartPosition.position)
+	$StartTimer.start()
+	$HUD.update_score(score)
+	$HUD.show_message("Get Ready")
+
+func game_over():
+	# Update state
+	state = 0
+	# Stop timers
+	$ScoreTimer.stop()
+	$MobTimer.stop()
+	# Stop Music
+	$MainTheme.stop()
+	# Play gameover sound
+	$GameOverSound.play()
+	# Clear all mobs
+	get_tree().call_group("mobs", "queue_free")
+	# Show game over message
+	$HUD.show_game_over(score)
+	
 func pause():
 	if paused:
 		pause_menu.hide()
@@ -31,33 +56,7 @@ func pause():
 		get_tree().paused = true
 		
 	paused = !paused
-
-func game_over():
-	# Update state
-	state = 0
-	# Stop timers
-	$ScoreTimer.stop()
-	$MobTimer.stop()
-	# Stop Music
-	$MainTheme.stop()
-	# Play gameover sound
-	$GameOverSound.play()
-	# Clear all mobs
-	get_tree().call_group("mobs", "queue_free")
-	#Show game over message
-	$HUD.show_game_over()
 	
-
-func new_game():
-	# Set up new game
-	state = 1
-	$MainTheme.play()
-	score = 0
-	$Player.start($StartPosition.position)
-	$StartTimer.start()
-	$HUD.update_score(score)
-	$HUD.show_message("Get Ready")
-
 func _on_mob_timer_timeout():
 	var mob = mob_scene.instantiate()
 	var mob_spawn_location = $MobPath/MobSpawnLocation
