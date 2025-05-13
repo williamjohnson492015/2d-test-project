@@ -1,0 +1,79 @@
+[gd_scene load_steps=3 format=3 uid="uid://c342xwlbp3lnf"]
+
+[ext_resource type="Script" uid="uid://30nnuc8eo345" path="res://Scripts/options_menu.gd" id="1_plplt"]
+[ext_resource type="FontFile" uid="uid://b48bsvgixqts5" path="res://Assets/Fonts/Xolonium-Regular.ttf" id="2_uj0ok"]
+
+[node name="OptionsMenu" type="CanvasLayer"]
+script = ExtResource("1_plplt")
+
+[node name="TitleLabel" type="Label" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -130.0
+offset_right = 130.0
+offset_bottom = 78.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("2_uj0ok")
+theme_override_font_sizes/font_size = 64
+text = "Options"
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 100.0
+offset_bottom = 229.0
+grow_horizontal = 2
+theme_override_constants/margin_left = 25
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="VolumeLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_uj0ok")
+theme_override_font_sizes/font_size = 32
+text = "Volume"
+
+[node name="VolumeMargin" type="MarginContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_right = 25
+
+[node name="VolumeSlider" type="HSlider" parent="MarginContainer/VBoxContainer/VolumeMargin"]
+layout_mode = 2
+
+[node name="MuteLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_uj0ok")
+theme_override_font_sizes/font_size = 32
+text = "Mute"
+
+[node name="MuteMargin" type="MarginContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_right = 25
+
+[node name="MuteButton" type="CheckButton" parent="MarginContainer/VBoxContainer/MuteMargin"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="BackgroundLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_uj0ok")
+theme_override_font_sizes/font_size = 32
+text = "Background Color"
+
+[node name="BackgroundColorMargin" type="MarginContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_right = 25
+
+[node name="BackgroundColorPickerButton" type="ColorPickerButton" parent="MarginContainer/VBoxContainer/BackgroundColorMargin"]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+
+[connection signal="value_changed" from="MarginContainer/VBoxContainer/VolumeMargin/VolumeSlider" to="." method="_on_volume_slider_value_changed"]
+[connection signal="toggled" from="MarginContainer/VBoxContainer/MuteMargin/MuteButton" to="." method="_on_mute_button_toggled"]
+[connection signal="color_changed" from="MarginContainer/VBoxContainer/BackgroundColorMargin/BackgroundColorPickerButton" to="." method="_on_background_color_picker_button_color_changed"]
